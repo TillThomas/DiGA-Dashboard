@@ -8,32 +8,28 @@ import { LinearGradient } from '@visx/gradient';
 import { max, extent, bisector } from '@visx/vendor/d3-array';
 import { timeFormat } from '@visx/vendor/d3-time-format';
 
-type TooltipData = AppleStock;
-
 const stock = appleStock.slice(800);
 export const background = '#3b6978';
 export const background2 = '#204051';
 export const accentColor = '#edffea';
 export const accentColorDark = '#75daad';
 
-
-// util
-const formatDate = timeFormat("%b %d, '%y");
-
 // accessors
 const getDate = (d: AppleStock) => new Date(d.date);
 const getStockValue = (d: AppleStock) => d.close;
-const bisectDate = bisector<AppleStock, Date>((d) => new Date(d.date)).left;
 
 export type AreaProps = {
+  data: number[];
   width: number;
   height: number;
-  margin?: { top: number; right: number; bottom: number; left: number };
+  margin?: AreaMargin;
 };
 
+export type AreaMargin = { top: number; right: number; bottom: number; left: number };
+
 export default function Area(props: AreaProps) {
-  let width, height, margin;
-  ({
+  let data, width, height, margin: AreaMargin;
+  ({data,
     width,
     height,
     margin = { top: 0, right: 0, bottom: 0, left: 0 },
